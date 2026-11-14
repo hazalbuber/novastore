@@ -196,3 +196,39 @@ SELECT OrderID, OrderDate, DATEDIFF(DAY, OrderDate, GETDATE()) AS DaysPassed
 FROM Orders
 ORDER BY OrderDate;
 GO
+
+-- PART 4: ADVANCED DATABASE OBJECTS
+
+-- Task 1: Create the vw_SiparisOzet view
+-- Shows customer name, order date, product name and quantity in a single result.
+-- CREATE VIEW must be the first statement in its batch, so it comes right after a GO.
+CREATE VIEW vw_SiparisOzet AS
+SELECT c.FullName     AS CustomerName,
+       o.OrderDate    AS OrderDate,
+       p.ProductName  AS ProductName,
+       od.Quantity    AS Quantity
+FROM Customers c
+JOIN Orders o        ON c.CustomerID = o.CustomerID
+JOIN OrderDetails od ON o.OrderID    = od.OrderID
+JOIN Products p      ON od.ProductID = p.ProductID;
+GO
+
+-- Test the view
+SELECT * FROM vw_SiparisOzet ORDER BY OrderDate;
+GO
+
+-- Task 2: Back up the database
+
+-- Task 2-A: Windows version (as requested in the assignment).
+-- Requires the folder C:\Yedek\ to exist. This will fail on Docker/Linux.
+BACKUP DATABASE NovaStoreDB
+TO DISK = 'C:\Yedek\NovaStoreDB.bak'
+WITH FORMAT, INIT, NAME = 'NovaStoreDB Full Backup';
+GO
+
+-- Task 2-B: Linux/Docker version (used when SQL Server runs in a Linux container).
+-- /var/opt/mssql/data/ is a folder inside the container.
+BACKUP DATABASE NovaStoreDB
+TO DISK = '/var/opt/mssql/data/NovaStoreDB.bak'
+WITH FORMAT, INIT, NAME = 'NovaStoreDB Full Backup';
+GO
