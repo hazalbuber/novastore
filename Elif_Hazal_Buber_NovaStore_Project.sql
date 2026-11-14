@@ -142,3 +142,57 @@ INSERT INTO OrderDetails (OrderID, ProductID, Quantity) VALUES
 (10, 1, 1),   -- Kablosuz Kulaklık x1
 (10, 10, 1);  -- Nemlendirici Krem x1
 GO
+
+-- PART 3: QUERYING AND ANALYSIS (DQL)
+
+-- Question 1: Products with stock below 20, sorted by stock in descending order
+SELECT ProductName, Stock
+FROM Products
+WHERE Stock < 20
+ORDER BY Stock DESC;
+GO
+
+-- Question 2: Which customer placed an order on which date? (INNER JOIN)
+SELECT c.FullName     AS CustomerName,
+       c.City         AS City,
+       o.OrderDate    AS OrderDate,
+       o.TotalAmount  AS TotalAmount
+FROM Customers c
+INNER JOIN Orders o ON c.CustomerID = o.CustomerID
+ORDER BY o.OrderDate;
+GO
+
+-- Question 3: Name, price and category of the products bought by "Elif Büber"
+SELECT c.FullName        AS CustomerName,
+       p.ProductName     AS ProductName,
+       p.Price           AS Price,
+       cat.CategoryName  AS Category
+FROM Customers c
+JOIN Orders o        ON c.CustomerID = o.CustomerID
+JOIN OrderDetails od ON o.OrderID    = od.OrderID
+JOIN Products p      ON od.ProductID = p.ProductID
+JOIN Categories cat  ON p.CategoryID = cat.CategoryID
+WHERE c.FullName = N'Elif Büber';
+GO
+
+-- Question 4: How many products are in each category? (LEFT JOIN + GROUP BY + COUNT)
+SELECT cat.CategoryName AS Category, COUNT(p.ProductID)  AS ProductCount
+FROM Categories cat
+LEFT JOIN Products p ON cat.CategoryID = p.CategoryID
+GROUP BY cat.CategoryName
+ORDER BY ProductCount DESC;
+GO
+
+-- Question 5: Total revenue per customer, from highest to lowest (SUM)
+SELECT c.FullName AS CustomerName, SUM(o.TotalAmount) AS TotalRevenue
+FROM Customers c
+INNER JOIN Orders o ON c.CustomerID = o.CustomerID
+GROUP BY c.FullName
+ORDER BY TotalRevenue DESC;
+GO
+
+-- Question 6: Days passed since each order (DATEDIFF + GETDATE)
+SELECT OrderID, OrderDate, DATEDIFF(DAY, OrderDate, GETDATE()) AS DaysPassed
+FROM Orders
+ORDER BY OrderDate;
+GO
