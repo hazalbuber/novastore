@@ -1,5 +1,7 @@
 # NovaStore – E-Commerce Database Project
 
+[Türkçe sürüm](README.tr.md)
+
 A relational database for a fictional online store called NovaStore, written in T-SQL for SQL Server. The project covers database design, sample data, analysis queries, a view and a backup. It is the final project of an SQL training course.
 
 ## What's Inside
