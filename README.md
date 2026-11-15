@@ -1,6 +1,6 @@
 # NovaStore – E-Commerce Database Project
 
-[Türkçe sürüm](README.tr.md)
+[Türkçe README](README.tr.md)
 
 A relational database for a fictional online store called NovaStore, written in T-SQL for SQL Server. The project covers database design, sample data, analysis queries, a view and a backup. It is the final project of an SQL training course.
 
@@ -54,4 +54,3 @@ Notes:
 - The script starts with `DROP DATABASE IF EXISTS NovaStoreDB`, so running it again recreates the database from scratch.
 - The assignment asks for a backup to `C:\Yedek\`, which is a Windows path. The script contains that version and a Linux/Docker version that writes to `/var/opt/mssql/data/`. Inside Docker only the Linux version works.
 - The result of the "days passed" query depends on the day it is run.
-
